@@ -1,0 +1,9 @@
+[submodule "Back-end"]
+	path = Back-end
+	url = https://github.com/Amr-Ma7moud/CampusConnect-backend.git
+[submodule "Android-app"]
+	path = Android-app
+	url = https://github.com/TaQsiimUwU/CompusConnect-Android.git
+[submodule "Front-end"]
+	path = Front-end
+	url = https://github.com/Mazen7atem/CampusConnect-frontend.git
