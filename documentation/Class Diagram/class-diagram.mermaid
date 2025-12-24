@@ -1,0 +1,441 @@
+---
+title: CampusConnect Backend Class Diagram
+---
+
+classDiagram
+%% Core User Hierarchy
+class User {
++int user_id
++string first_name
++string last_name
++string user_name
++string phone
++string email
++string password
++string role
++bool is_active
++createUser(userData) int
++getUserByEmail(email) User
++updateUserStatus(userId, status)
++searchForUsers(query) User[]
+}
+
+    class Student {
+        +int student_id
+        +string type
+        +string faculty
+        +string major
+        +int level
+        +string picture
+        +bool in_dorms
+        +createStudent(studentData) int
+        +getStudentById(id) Student
+    }
+
+    class Admin {
+        +int admin_id
+        +string role
+        +createAdmin(adminData) int
+        +getAdminById(id) Admin
+        +getAllReports() Report[]
+        +getStats() Statistics
+        +getPendingEvents() Event[]
+        +approveEvent(eventId, status, roomId)
+    }
+
+    %% Core Entities
+    class Club {
+        +int club_id
+        +string name
+        +string email
+        +string description
+        +string cover
+        +string logo
+        +datetime start_date
+        +string status
+        +createClub(clubData) int
+        +findClubById(id) Club
+        +findClubByEmail(email) Club
+        +updateClubDetails(clubId, details)
+        +getAllClubs() Club[]
+        +addFollower(clubId, userId)
+        +deleteFollower(clubId, userId)
+        +getClubFollowers(clubId) Student[]
+    }
+
+    class Event {
+        +int event_id
+        +string title
+        +string description
+        +datetime event_start_date
+        +datetime event_end_date
+        +string status
+        +string type
+        +int max_capacity
+        +scheduleEvent(eventData) int
+        +getEventById(id) Event
+        +deleteEvent(eventId)
+        +getApprovedEvents(type, clubId) Event[]
+        +registerStudentForEvent(eventId, studentId) int
+        +cancelStudentRegistration(eventId, studentId) bool
+        +checkInStudent(eventId, studentId) int
+        +isStudentRegisteredForEvent(eventId, studentId) bool
+    }
+
+    class Post {
+        +int post_id
+        +string content
+        +string image_url
+        +datetime created_at
+        +createPost(postData) int
+        +getPostById(postId) Post
+        +updatePost(postId, content)
+        +linkPostToEvent(postId, eventId)
+        +getAllPosts(limit) Post[]
+        +getPostsByEventId(eventId) Post[]
+    }
+
+    class Room {
+        +int room_id
+        +string building_name
+        +int room_number
+        +int capacity
+        +int start_time
+        +int end_time
+        +bool is_available
+        +string type
+        +createRoom(roomData) int
+        +findRoom(room_number, building_name) Room
+        +getAllRooms() Room[]
+        +reserveRoom(studentId, roomId, start_time, end_time, purpose)
+        +cancelReservation(studentId, roomId, start_time)
+        +getReservation(studentId, roomId, start_time) Reservation
+    }
+
+    class Facility {
+        +int facility_id
+        +string name
+        +string location_description
+        +int min_capacity
+        +int max_capacity
+        +string type
+        +string status
+        +createFacility(facilityData)
+    }
+
+    %% Association Classes
+    class ClubManager {
+        +int student_id
+        +int club_id
+        +datetime start_date
+        +string role_title
+        +addMembersToClub(clubId, stdIds)
+        +findClubMembers(clubId) Member[]
+        +getClubIdByManagerId(managerId) int
+    }
+
+    class Comment {
+        +int student_id
+        +int post_id
+        +string comment
+        +datetime created_at
+        +insertComment(postId, userId, comment) int
+        +getCommentsByPostId(postId) Comment[]
+    }
+
+    class Like {
+        +int student_id
+        +int post_id
+        +likePost(postId, userId) int
+        +unlikePost(postId, userId)
+        +getWhoLikedPost(postId) Student[]
+    }
+
+    class Reservation {
+        +int student_id
+        +int room_id
+        +datetime start_time
+        +datetime end_time
+        +string purpose
+        +string status
+        +getAllRoomsReservations() Reservation[]
+    }
+
+    class Registration {
+        +int student_id
+        +int event_id
+        +datetime registration_date
+        +getRegisteredStudentsForEvent(eventId) Student[]
+        +getEventRegistrationCount(eventId) int
+    }
+
+    class Attendance {
+        +int student_id
+        +int event_id
+        +datetime attend_date
+        +getAttendeeListForEvent(eventId) Student[]
+        +isStudentCheckedIn(eventId, studentId) bool
+    }
+
+    class Follow {
+        +int student_id
+        +int club_id
+        +datetime follow_date
+    }
+
+    %% Report Classes
+    class ClubReport {
+        +int student_id
+        +int club_id
+        +datetime date
+        +string reason
+        +string details
+        +string status
+        +reportClubIssue(reportData)
+        +getAllReports() ClubReport[]
+    }
+
+    class EventReport {
+        +int student_id
+        +int event_id
+        +datetime date
+        +string reason
+        +string details
+        +string status
+        +reportEventIssue(reportData)
+        +getAllReports() EventReport[]
+    }
+
+    class RoomReport {
+        +int student_id
+        +int room_id
+        +datetime date
+        +string reason
+        +string details
+        +string status
+        +reportRoomIssue(reportData)
+        +getAllReports() RoomReport[]
+    }
+
+    class FacilityReport {
+        +int student_id
+        +int facility_id
+        +datetime date
+        +string reason
+        +string details
+        +string status
+        +reportFacilityIssue(reportData)
+        +getAllReports() FacilityReport[]
+    }
+
+    %% Service Classes
+    class AuthService {
+        +login(email, password) AuthResult
+        +verifyToken(token) User
+        +generateToken(user) string
+    }
+
+    class UserService {
+        +createUser(userData) int
+        +createStudent(studentData) int
+        +createAdmin(adminData) int
+        +getStudentById(id) Student
+        +getAdminById(id) Admin
+        +banUser(userId)
+        +searchForStudent(query) Student[]
+    }
+
+    class ClubService {
+        +createClub(clubData) int
+        +findClubById(clubId) Club
+        +findClubMembers(clubId) Member[]
+        +editClub(clubId, details)
+        +followClub(clubId, userId)
+        +unfollowClub(clubId, userId)
+        +getClubDetails(clubId, userId) ClubDetails
+        +listAllClubs(userId) Club[]
+    }
+
+    class EventService {
+        +scheduleEvent(eventData) int
+        +getEventDetails(eventId) Event
+        +registerForEvent(eventId, studentId)
+        +cancelRegistration(eventId, studentId)
+        +checkInStudent(eventId, studentId)
+        +getEventPosts(eventId) Post[]
+    }
+
+    class PostService {
+        +createPost(postData) int
+        +getPostDetails(postId) Post
+        +updatePost(postId, content)
+        +addComment(postId, userId, comment)
+        +likePost(postId, userId)
+        +unlikePost(postId, userId)
+        +getFeedPosts(limit) Post[]
+    }
+
+    class RoomService {
+        +createRoom(roomData) int
+        +reserveRoom(reservationData)
+        +cancelReservation(studentId, roomId, startTime)
+        +getAvailableRooms() Room[]
+    }
+
+    class FacilityService {
+        +createFacility(facilityData)
+        +getAvailableFacilities() Facility[]
+    }
+
+    class AdminService {
+        +getAllReports() Report[]
+        +getStats() Statistics
+        +getPendingEvents() Event[]
+        +approveEvent(eventId, status, roomId)
+        +getAttendanceOverview() AttendanceData[]
+    }
+
+    %% Repository Classes (Data Access Layer)
+    class UserRepository {
+        <<interface>>
+        +createUser(userData) int
+        +createStudent(studentData) int
+        +createAdmin(adminData) int
+        +getUserByEmail(email) User
+        +getStudentById(id) Student
+        +getAdminById(id) Admin
+        +updateUserStatus(userId, status)
+        +searchForUsers(query) User[]
+        +getAllStudents() Student[]
+    }
+
+    class ClubRepository {
+        <<interface>>
+        +createClub(clubData) int
+        +findClubById(id) Club
+        +findClubByEmail(email) Club
+        +updateClubDetails(clubId, details)
+        +addMembersToClub(clubId, stdIds)
+        +findClubMembers(clubId) Member[]
+        +addFollower(clubId, userId)
+        +deleteFollower(clubId, userId)
+        +getClubFollowers(clubId) Student[]
+        +getAllClubs() Club[]
+        +getClubIdByManagerId(managerId) int
+        +reportClubIssue(reportData)
+        +getAllReports() ClubReport[]
+    }
+
+    class EventRepository {
+        <<interface>>
+        +getEventById(eventId) Event
+        +scheduleEvent(eventData) int
+        +deleteEvent(eventId)
+        +getApprovedEvents(type, clubId) Event[]
+        +getAllClubEvents(managerId) Event[]
+        +registerStudentForEvent(eventId, studentId) int
+        +cancelStudentRegistration(eventId, studentId) bool
+        +isStudentRegisteredForEvent(eventId, studentId) bool
+        +getEventRegistrationCount(eventId) int
+        +checkInStudent(eventId, studentId) int
+        +isStudentCheckedIn(eventId, studentId) bool
+        +getRegisteredStudentsForEvent(eventId) Student[]
+        +getAttendeeListForEvent(eventId) Student[]
+        +reportEventIssue(reportData)
+        +getAllReports() EventReport[]
+        +getAllEvents() Event[]
+        +getAllPendingEvents() Event[]
+        +assignRoomToEvent(eventId, roomId)
+        +updateEventStatus(eventId, status)
+    }
+
+    class PostRepository {
+        <<interface>>
+        +createPost(postData) int
+        +getPostById(postId) Post
+        +updatePost(postId, content)
+        +linkPostToEvent(postId, eventId)
+        +insertComment(postId, userId, comment) int
+        +getCommentsByPostId(postId) Comment[]
+        +likePost(postId, userId) int
+        +unlikePost(postId, userId)
+        +getWhoLikedPost(postId) Student[]
+        +getAllPosts(limit) Post[]
+        +getPostsByEventId(eventId) Post[]
+    }
+
+    class RoomRepository {
+        <<interface>>
+        +createRoom(roomData) int
+        +findRoom(roomNumber, buildingName) Room
+        +getAllRooms() Room[]
+        +reserveRoom(reservationData)
+        +cancelReservation(studentId, roomId, startTime)
+        +getReservation(studentId, roomId, startTime) Reservation
+        +getAllRoomsReservations() Reservation[]
+        +reportRoomIssue(reportData)
+        +getAllReports() RoomReport[]
+    }
+
+    class FacilityRepository {
+        <<interface>>
+        +createFacility(facilityData)
+        +reportFacilityIssue(reportData)
+        +getAllReports() FacilityReport[]
+    }
+
+    class AuthRepository {
+        <<interface>>
+        +findUserByEmail(email) User
+    }
+
+    %% Inheritance Relationships
+    User <|-- Student : extends
+    User <|-- Admin : extends
+
+    %% Composition Relationships
+    Club *-- Post : creates
+    Club *-- Event : organizes
+    Student *-- ClubManager : becomes
+    Event *-- Registration : has
+    Event *-- Attendance : tracks
+    Post *-- Comment : contains
+    Post *-- Like : receives
+    Room *-- Reservation : booked_by
+    Student *-- Follow : follows_clubs
+
+    %% Association Relationships
+    Student --> Club : manages
+    Student --> Event : attends
+    Student --> Post : creates_comments
+    Student --> Post : likes
+    Student --> Room : reserves
+    Student --> ClubReport : reports
+    Student --> EventReport : reports
+    Student --> RoomReport : reports
+    Student --> FacilityReport : reports
+    Event --> Room : hosted_in
+    Event --> Post : promoted_by
+
+    %% Service Layer Dependencies
+    UserService --> UserRepository : uses
+    ClubService --> ClubRepository : uses
+    EventService --> EventRepository : uses
+    PostService --> PostRepository : uses
+    RoomService --> RoomRepository : uses
+    FacilityService --> FacilityRepository : uses
+    AdminService --> UserRepository : uses
+    AdminService --> ClubRepository : uses
+    AdminService --> EventRepository : uses
+    AdminService --> RoomRepository : uses
+    AdminService --> FacilityRepository : uses
+    AuthService --> AuthRepository : uses
+
+    %% Repository Dependencies (Data Access)
+    UserRepository ..> User : manages
+    ClubRepository ..> Club : manages
+    EventRepository ..> Event : manages
+    PostRepository ..> Post : manages
+    RoomRepository ..> Room : manages
+    FacilityRepository ..> Facility : manages
+    AuthRepository ..> User : authenticates
