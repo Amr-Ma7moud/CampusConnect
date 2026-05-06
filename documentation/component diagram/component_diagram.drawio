@@ -1,0 +1,145 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="CampusConnect Component Diagram">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Presentation Layer -->
+        <mxCell id="PresentationLayer" value="Presentation Layer (Client Components)" style="swimlane;whiteSpace=wrap;html=1;fontStyle=1;startSize=30;" vertex="1" parent="1">
+          <mxGeometry x="250" y="20" width="500" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="AndroidApp" value="Android Mobile App&#10;(Kotlin/Jetpack)" style="shape=module;whiteSpace=wrap;html=1;" vertex="1" parent="PresentationLayer">
+          <mxGeometry x="40" y="50" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="WebApp" value="Web Admin Dashboard&#10;(React SPA)" style="shape=module;whiteSpace=wrap;html=1;" vertex="1" parent="PresentationLayer">
+          <mxGeometry x="280" y="50" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- API Gateway & Security Layer -->
+        <mxCell id="APILayer" value="API Gateway &amp; Security Layer" style="swimlane;whiteSpace=wrap;html=1;fontStyle=1;startSize=30;" vertex="1" parent="1">
+          <mxGeometry x="250" y="190" width="500" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="RestAPI" value="REST / JSON Interface" style="shape=ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="APILayer">
+          <mxGeometry x="180" y="40" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="APIController" value="REST API Controller&#10;(Request Routing)" style="shape=module;whiteSpace=wrap;html=1;" vertex="1" parent="APILayer">
+          <mxGeometry x="40" y="100" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="AuthModule" value="JWT Auth Module&#10;(Token &amp; Roles)" style="shape=module;whiteSpace=wrap;html=1;" vertex="1" parent="APILayer">
+          <mxGeometry x="280" y="100" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Application Services Layer -->
+        <mxCell id="AppLayer" value="Application Services (Business Logic)" style="swimlane;whiteSpace=wrap;html=1;fontStyle=1;startSize=30;" vertex="1" parent="1">
+          <mxGeometry x="150" y="400" width="700" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="AppPort" value="Secured Internal Port" style="shape=ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="AppLayer">
+          <mxGeometry x="280" y="40" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="BookingSvc" value="Facility Booking Svc&#10;(Rooms &amp; Sports)" style="shape=module;whiteSpace=wrap;html=1;" vertex="1" parent="AppLayer">
+          <mxGeometry x="20" y="110" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="EventSvc" value="Event &amp; Club Svc&#10;(Management)" style="shape=module;whiteSpace=wrap;html=1;" vertex="1" parent="AppLayer">
+          <mxGeometry x="260" y="110" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="NotificationSvc" value="Notification &amp; Trigger&#10;(Background Jobs)" style="shape=module;whiteSpace=wrap;html=1;" vertex="1" parent="AppLayer">
+          <mxGeometry x="500" y="110" width="180" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Data Access & Storage Layer -->
+        <mxCell id="DataLayer" value="Data Access &amp; Storage" style="swimlane;whiteSpace=wrap;html=1;fontStyle=1;startSize=30;" vertex="1" parent="1">
+          <mxGeometry x="80" y="620" width="260" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="DataPort" value="ORM / Data Interface" style="shape=ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="DataLayer">
+          <mxGeometry x="60" y="40" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ORM" value="Data Access / ORM" style="shape=module;whiteSpace=wrap;html=1;" vertex="1" parent="DataLayer">
+          <mxGeometry x="40" y="100" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="Database" value="Primary Database&#10;(PostgreSQL / MySQL)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="DataLayer">
+          <mxGeometry x="60" y="170" width="140" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- External Nodes Layer -->
+        <mxCell id="ExtLayer" value="External Nodes &amp; Services" style="swimlane;whiteSpace=wrap;html=1;fontStyle=1;startSize=30;" vertex="1" parent="1">
+          <mxGeometry x="450" y="620" width="400" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="SocialMedia" value="Social Media APIs" style="shape=module;whiteSpace=wrap;html=1;" vertex="1" parent="ExtLayer">
+          <mxGeometry x="20" y="60" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="SMTP" value="SMTP Provider" style="shape=module;whiteSpace=wrap;html=1;" vertex="1" parent="ExtLayer">
+          <mxGeometry x="220" y="60" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="WorkManager" value="Android WorkManager" style="shape=module;whiteSpace=wrap;html=1;" vertex="1" parent="ExtLayer">
+          <mxGeometry x="220" y="150" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Connectivity Edges -->
+        <mxCell id="edge1" edge="1" parent="1" source="AndroidApp" target="RestAPI">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge2" edge="1" parent="1" source="WebApp" target="RestAPI">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge3" edge="1" parent="1" source="RestAPI" target="APIController">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge4" edge="1" parent="1" source="APIController" target="AuthModule">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="edge5" edge="1" parent="1" source="APIController" target="AppPort">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge6" edge="1" parent="1" source="AppPort" target="BookingSvc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge7" edge="1" parent="1" source="AppPort" target="EventSvc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge8" edge="1" parent="1" source="AppPort" target="NotificationSvc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Cross-service App dependencies -->
+        <mxCell id="edge9" edge="1" parent="1" source="BookingSvc" target="NotificationSvc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge10" edge="1" parent="1" source="EventSvc" target="NotificationSvc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Downward to Data Layer -->
+        <mxCell id="edge11" edge="1" parent="1" source="BookingSvc" target="DataPort">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge12" edge="1" parent="1" source="EventSvc" target="DataPort">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge13" edge="1" parent="1" source="NotificationSvc" target="DataPort">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="edge14" edge="1" parent="1" source="DataPort" target="ORM">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge15" edge="1" parent="1" source="ORM" target="Database">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Downward to External APIs -->
+        <mxCell id="edge16" edge="1" parent="1" source="EventSvc" target="SocialMedia">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge17" edge="1" parent="1" source="NotificationSvc" target="SMTP">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge18" edge="1" parent="1" source="NotificationSvc" target="WorkManager">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
